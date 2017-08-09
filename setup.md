@@ -6,7 +6,7 @@ You probably want to create a git repo to track your changes. Go ahead and do th
 
 The first thing you're going to want to do is install Java. Scala is a JVM language, which means that its compiler emits bytecode, which runs on a JVM. If you're on a Mac, you can probably just open a shell & type `java`. Though it's probably better to download from [the source](http://www.oracle.com/technetwork/java/javase/downloads/jdk8-downloads-2133151.html). You will need a JDK (not a JRE), as of the time of writing this is "Java SE Development Kit 8u144". There is also [documentation](http://www.oracle.com/technetwork/java/javase/documentation/jdk8-doc-downloads-2133158.html) available (handy for linking into your IDE).
 
-Then, you're going to want to download & install [`sbt`](http://www.scala-sbt.org). If you're on Mac, the easiest way is probably to `brew install sbt`, or you may wish to copy a version of [this runner](https://github.com/paulp/sbt-extras) locally (which is my preference) to the root of your project. Or, you can [follow the instructions](http://www.scala-sbt.org/0.13/docs/Setup.html).
+Then, you're going to want to download & install [sbt](http://www.scala-sbt.org). If you're on Mac, the easiest way is probably to `brew install sbt`, or you may wish to copy a version of [this runner](https://github.com/paulp/sbt-extras) locally (which is my preference) to the root of your project. Or, you can [follow the instructions](http://www.scala-sbt.org/0.13/docs/Setup.html).
 
 So the first thing you're going to want to do is get a basic build going. You can follow along to the [documentation](http://www.scala-sbt.org/0.13/docs/Hello.html) to do this (ensure you have the correct path), but it will be something like:
 
