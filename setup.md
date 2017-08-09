@@ -55,12 +55,10 @@ $ ./sbt
 [info] Running example.Hello 
 hello
 [success] Total time: 5 s, completed 09/08/2017 9:40:27 PM
+> exit
 ```
 
 Yay!
 
 So this has tried to run the app, in order to do this it's compile the app first.
-
-
-
 
