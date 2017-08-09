@@ -62,3 +62,4 @@ Yay!
 
 So this has tried to run the app, in order to do this it's compile the app first.
 
+OK, you've just got yourself a basic Scala app up & running!

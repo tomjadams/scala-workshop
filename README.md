@@ -13,11 +13,14 @@ There is reading material at the end of this document.
     We'll build a simplified version of the pricing calculator homework task. You'll learn about the basics of Scala, including:
 
     * [Setup](./setup.md)
+    * [Getting Started](./getting-started.md)
     * Testing
     * ScalaCheck
     * Either & Option
     * Circe
     * Futures
+
+To get started, click on the links for each of the sections. It's better if you do them in order, but feel free to skip ahead if you want.
 
 2. Finch
 
