@@ -49,11 +49,13 @@ Depending on how you like to learn, you should also do some reading on Scala. Th
 
 ### Books
 
-There are a bunch of beginner Scala books (google them). The FP oriented books are good if you want that slant.
+There are a bunch of beginner Scala books (google them). The FP oriented books are good if you want that slant, though you may be best picking a more beginner's book.
 
 * https://www.manning.com/books/functional-programming-in-scala
 
 ### Courses
+
+If courses are more your thing, there's plenty to choose from. Ideally you should pick an introductory course, don't head straight for the deep tech.
 
 * [Twitter Scala School](https://twitter.github.io/scala_school/) - Twitter's course is a great free resource (and covers some of the tech we use)
 * [Udemy](https://www.udemy.com/courses/search/?q=scala)
@@ -61,7 +63,11 @@ There are a bunch of beginner Scala books (google them). The FP oriented books a
 
 ## Tools/Frameworks We Use
 
+We make use of a bunch of frameworks, here's some more information if you'd like to dig deeper into them.
+
 ### Finch
+
+This is the HTTP framework we use. It's a small abstraction on top of Finagle.
 
 * [Finch best practices](https://github.com/finagle/finch/blob/master/docs/best-practices.md)
 * [Finagle 101](http://vkostyukov.net/posts/finagle-101/)
@@ -70,6 +76,8 @@ There are a bunch of beginner Scala books (google them). The FP oriented books a
 * [Typed services using Finch](https://www.infoq.com/presentations/finch)
 
 ### Finagle
+
+Finagle provides the main framework we use for creating services. We also use it's libraries for making outgoing connections to downstream services. You don't need to know Finagle to use Finch, but it helps if you want to tweak things (like timeouts & retries) or customise how errors are handled, etc.s
 
 * [Getting started with Finagle](http://andrew-jones.com/blog/getting-started-with-finagle/)
 * [An introduction to Finagle](http://twitter.github.io/scala_school/finagle.html)
@@ -80,11 +88,8 @@ There are a bunch of beginner Scala books (google them). The FP oriented books a
 
 * [Cats documentation](http://typelevel.org/cats/)
 
-### GraphQL
-
-* [GraphQL Queries](http://graphql.org/docs/queries/)
-* [GraphiQL App](https://github.com/skevy/graphiql-app)
-
-### Sangria
+### Sangria/GraphQL
 
 * [Learn Sangira](http://sangria-graphql.org/learn/)
+* [GraphQL Queries](http://graphql.org/docs/queries/)
+* [GraphiQL App](https://github.com/skevy/graphiql-app)
