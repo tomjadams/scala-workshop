@@ -40,8 +40,27 @@ These do the following:
 
 Let's go ahead & edit the build file, and update the Scala version to 2.12.3.
 
-
-
 `sbt` can run both as a command or interactively (REPL). It's up to you how you want to use it, the REPL is quite nice, and allows you to interactively (with tab completion, etc.) run commands.
+
+Let's run the app in the sbt console (sbt might do some building of things the first time):
+
+```
+$ cd take-home-test
+$ ./sbt
+> run
+[info] Updating {file:/Users/tom/src/test/take-home-test/}root...
+[info] Resolving jline#jline;2.14.1 ...
+[info] Done updating.
+[info] Compiling 1 Scala source to /Users/tom/src/test/take-home-test/target/scala-2.12/classes...
+[info] Running example.Hello 
+hello
+[success] Total time: 5 s, completed 09/08/2017 9:40:27 PM
+```
+
+Yay!
+
+So this has tried to run the app, in order to do this it's compile the app first.
+
+
 
 

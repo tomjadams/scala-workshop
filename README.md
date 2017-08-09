@@ -8,7 +8,7 @@ There is reading material at the end of this document.
 
 # Agenda
 
-1. [Introduction to Scala](#introduction-to-scala)
+1. Introduction to Scala
 
     We'll build a simplified version of the pricing calculator homework task. You'll learn about the basics of Scala, including:
 
@@ -19,17 +19,17 @@ There is reading material at the end of this document.
     * Circe
     * Futures
 
-2. [Finch](#finch)
+2. Finch
 
     Finch is the HTTP framework we use. We'll turn the pricing calculator into a HTTP API.
 
-3. [GraphQL](#graphql)
+3. GraphQL
 
     We'll take the Finch API that we built, and make turn it into GraphQL API.
 
-4. [How the iOS API works](#how-the-ios-api-works)
+4. How the iOS API works
 
-    We'll then cover the iOS API, what it does, how it works, how it's built. THings like:
+    We'll then cover the iOS API, what it does, how it works, how it's built. Things like:
 
     * BFF - Rationale, what it does, etc.
     * Architecture
@@ -50,21 +50,20 @@ There are a bunch of beginner Scala books (google them). The FP oriented books a
 
 * https://www.manning.com/books/functional-programming-in-scala
 
-### Course
+### Courses
 
 * [Twitter Scala School](https://twitter.github.io/scala_school/) - Twitter's course is a great free resource (and covers some of the tech we use)
 * [Udemy](https://www.udemy.com/courses/search/?q=scala)
 * [Coursera](https://www.coursera.org/specializations/scala)
 
-## Tools/Frameworks we use
+## Tools/Frameworks We Use
 
 ### Finch
 
 * [Finch best practices](https://github.com/finagle/finch/blob/master/docs/best-practices.md)
 * [Finagle 101](http://vkostyukov.net/posts/finagle-101/)
 * [Finch 101](http://vkostyukov.ru/slides/finch-101/)
-* [Finch workshop (slides)](https://nrinaudo.github.io/workshop-finch/#1)
-* [Finch workshop (code)](https://github.com/nrinaudo/workshop-finch)
+* Finch workshop [(slides)](https://nrinaudo.github.io/workshop-finch/#1) & [(code)](https://github.com/nrinaudo/workshop-finch)
 * [Typed services using Finch](https://www.infoq.com/presentations/finch)
 
 ### Finagle
