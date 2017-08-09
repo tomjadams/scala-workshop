@@ -1,8 +1,6 @@
 # Setup
 
-We're going to build a simplified version of the [pricing calculator homework task](http://take-home-test.herokuapp.com/new-product-engineer).
-
-You probably want to create a git repo to track your changes. Go ahead and do this.
+To begin, you're probably going to want to create a git repo to track your changes. Go ahead and do this.
 
 The first thing you're going to want to do is install Java. Scala is a JVM language, which means that its compiler emits bytecode, which runs on a JVM. If you're on a Mac, you can probably just open a shell & type `java`. Though it's probably better to download from [the source](http://www.oracle.com/technetwork/java/javase/downloads/jdk8-downloads-2133151.html). You will need a JDK (not a JRE), as of the time of writing this is "Java SE Development Kit 8u144". There is also [documentation](http://www.oracle.com/technetwork/java/javase/documentation/jdk8-doc-downloads-2133158.html) available (handy for linking into your IDE).
 
