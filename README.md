@@ -12,9 +12,9 @@ There is reading material at the end of this document.
 
     You'll learn about the basics of Scala, including:
 
-    * [Setup](./doc/intro/setup.md)
-    * [Getting Started](./doc/intro/getting-started.md)
-    * Testing
+    * [Setup](./doc/intro/01-setup.md)
+    * [Getting Started](./doc/intro/02-getting-started.md)
+    * [Testing](./doc/intro/03-testing.md)
     * ScalaCheck
     * Either & Option
     * Circe

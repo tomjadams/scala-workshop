@@ -78,13 +78,3 @@ You've been introduced to a few new concepts, now's probably a good time to read
 * Printing to standard out;
 * Package structure & the relationship to directories;
 * Pattern matching.
-
-
-
-
-TODo Explain what to do.
-
-http://www.scala-sbt.org/0.13/docs/Library-Dependencies.html#Managed+Dependencies
-
-
-http://www.scalatest.org
