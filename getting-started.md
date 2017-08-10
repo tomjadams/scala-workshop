@@ -16,13 +16,29 @@ Go ahead & download all the JSON data files linked off the homework exercise, yo
 
 Like most languages with a C heritage, Scala (by virtue of being a descendant of Java), takes a pretty typical approach of having a single class which is the entry-point to the app, containing a `main` function which takes an array of command line arguments.
 
-The example that has been generated for you simplifies this, by extending the `App` trait, but you probably want to build this yourself, such that you can do some more complex things, like check we have the right number of arguments. What you want to do here is rename the current main class, feel free to move it's package to something more relevant, e.g. `com.redbubble.pricing` or such.
+The example that has been generated for you simplifies this, by extending the `App` trait, but you probably want to build this yourself, such that you can do some more complex things, like check we have the right number of arguments. What you want to do here is rename the current main class, feel free to move it's package to something more relevant, e.g. `com.redbubble.pricing` or such. If you move the production code, also move the test.
+
+A simple main class looks something like this:
 
 ```scala
-
+object App {
+  def main(args: Array[String]): Unit = {
+    ...
+  }
+}
 ```
 
+What you want to do next is to parse the command line arguments, you can use an `if` for this, or you can use pattern matching:
 
+```scala
+object App {
+  def main(args: Array[String]): Unit = args match {
+    case Array(cartFile, basePricesFile) =>
+      ...
+    case _ => println("Usage: pricer.App <cart.json> <base-prices.json>")
+  }
+}
+```
 
 **Further reading:**
 

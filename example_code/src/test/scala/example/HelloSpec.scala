@@ -1,5 +1,6 @@
 package example
 
+import com.redbubble.pricer.Hello
 import org.scalatest._
 
 class HelloSpec extends FlatSpec with Matchers {
