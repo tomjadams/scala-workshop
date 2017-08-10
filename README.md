@@ -12,8 +12,8 @@ There is reading material at the end of this document.
 
     You'll learn about the basics of Scala, including:
 
-    * [Setup](./setup.md)
-    * [Getting Started](./getting-started.md)
+    * [Setup](./doc/intro/setup.md)
+    * [Getting Started](./doc/intro/getting-started.md)
     * Testing
     * ScalaCheck
     * Either & Option
@@ -25,6 +25,8 @@ There is reading material at the end of this document.
 2. Finch
 
     Finch is the HTTP framework we use. We'll turn the pricing calculator into a HTTP API.
+
+    * [Setup](./doc/finch/setup.md)
 
 3. GraphQL
 
