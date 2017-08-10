@@ -15,7 +15,7 @@ There is reading material at the end of this document.
     * [Setup](./doc/intro/01-setup.md)
     * [Getting Started](./doc/intro/02-getting-started.md)
     * [Testing](./doc/intro/03-testing.md)
-    * ScalaCheck
+    * [ScalaCheck](./doc/intro/04-scalacheck.md)
     * Either & Option
     * Circe
     * Futures

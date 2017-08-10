@@ -52,10 +52,12 @@ Now, let's run the test:
 
 Success!!!
 
+For practice, go ahead & create tests for each of the other fields we've added to the class (`options` & `basePrice`).
 
 **Further reading:**
 
 You've been introduced to a few new concepts, now's probably a good time to read up on them.
 
 * Case classes & objects;
+* `Map.empty`;
 * The `apply` method.
