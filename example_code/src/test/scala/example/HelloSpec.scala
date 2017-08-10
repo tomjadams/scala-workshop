@@ -1,10 +1,10 @@
 package example
 
-import com.redbubble.pricer.Hello
+import com.redbubble.pricer.App
 import org.scalatest._
 
 class HelloSpec extends FlatSpec with Matchers {
   "The Hello object" should "say hello" in {
-    Hello.greeting shouldEqual "hello"
+    App.greeting shouldEqual "hello"
   }
 }
