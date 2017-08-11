@@ -63,8 +63,10 @@ import org.scalatest.prop.PropertyChecks
 import org.scalatest.{FlatSpec, Matchers}
 
 final class BaseProductPropertySpec extends FlatSpec with Matchers with PropertyChecks {
-  forAll { (productType: String) =>
-    BaseProduct(productType, Map.empty, 0).productType shouldEqual productType
+  "A base product" should "contain a product type" in {
+    forAll { (productType: String) =>
+      BaseProduct(productType, Map.empty, 0).productType shouldEqual productType
+    }
   }
 }
 ```
