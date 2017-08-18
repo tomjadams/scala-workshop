@@ -140,17 +140,46 @@ What we've done is create a couple of generic generators (which we will reuse), 
 
 Now that we have some basic helpers, let's build a generator for our `CartItem` class.
 
-First, let's 
+First, let's build a generator for our options `Map`:
 
 ```scala
 private val genCartOptions = Gen.mapOf(genStringTuple)
 ```
 
+`Gen.mapOf` comes from ScalaCheck, and uses the `genStringTuple` to generate the key/value pairs to put into the map.
 
+Now we've got all the helper functions set up, we're going to build the generator for our cart item.
+
+```scala
+private val cartItemGenerator = for {
+  productType <- Gen.alphaLowerStr
+  options <- genCartOptions
+  markup <- Gen.posNum[Int]
+  quantity <- Gen.posNum[Int]
+} yield CartItem(productType, options, markup, quantity)
+```
+
+We've used a for comprehension again to generate the individual field values, then pulled them together in the `yield`.
+
+OK, so now we've got a generator for `CartItem` instances, we want to build a ScalaCheck property that takes this item, encodes it into JSON, then uses our `Decoder` to turn that JSON into a cart item again. Our test will check that the decoded cart item is the same as the one we fed into the decoder originally (this is sometimes called "roundtrip", which you will see a lot with ScalaCheck).
+
+This process looks something like:
+
+```
+CartItem -> JSON version of CartItem -> Decoder -> CartItem
+```
+
+Let's see how our test looks:
 
 ```scala
 ```
 
+
+Putting all those together in the test, we
+
+
+
+## Decoder Integration
 
 We can plug this into our class using something like the following:
 
