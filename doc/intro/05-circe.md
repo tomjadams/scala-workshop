@@ -1,5 +1,7 @@
 # Circe
 
+## Setup
+
 Next, we're going to want to parse our JSON files. We'll walk through parsing the first one, then, we'll let you do the second by yourself.
 
 We're going to use [Circe](https://circe.github.io/circe/) to parse the JSON. Let's add a dependency into our dependencies file:
@@ -29,6 +31,8 @@ libraryDependencies ++= Seq(
   scalaCheck
 )
 ```
+
+## Decoding
 
 OK, let's look at our cart first. The structure looks like:
 
@@ -102,13 +106,38 @@ Let's break this down a little:
 
 1. We wrap all this up `for` comprehension. You will likely build your decoders using `for` comprehensions, as this allows us to handle the potential decoding failures in a syntactically clean way (the failures we mentioned above). Essentially, the for comprehensions hides the error handling from us in a clean way.
 
-So now we've got our decoder, let's build a test for it.
+## Testing
+
+So now we've got our decoder, let's build a test for it. We'll use the same pattern as we've used before to write the test.
+
+Firstly, we need to write a ScalaCheck generator for our `CartItem` class. Before we do that, we're going to build some pieces of helper code, that will allow us to reuse some of our more common
 
 ```scala
-{
+package com.redbubble.pricer
 
+import org.scalacheck.Gen
+
+trait Generators {
+  final val genStringValue: Gen[String] = Gen.alphaStr.map(_.take(20))
+
+  final val genNotEmptyString: Gen[String] = Gen.alphaStr.suchThat(s => !s.isEmpty)
+
+  final val genStringTuple: Gen[(String, String)] = for {
+    k <- Gen.identifier
+    v <- genStringValue
+  } yield (k, v)
 }
+
+object Generators extends Generators
+
 ```
+
+AAA
+
+```scala
+```
+
+
 
 We can plug this into our class using something like the following:
 
