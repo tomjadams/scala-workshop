@@ -268,6 +268,21 @@ final class DecodersSpec extends FlatSpec with Matchers with PropertyChecks with
 }
 ```
 
+Hopefully, your test might fail now! This is because we've not finished the decoder, let's do that now.
+
+```scala
+val cartItemDecoder = Decoder.instance[CartItem] { c =>
+  for {
+    productType <- c.downField("product-type").as[String]
+    options <- c.downField("options").as[Map[String, String]]
+    markup <- c.downField("artist-markup").as[Int]
+    quantity <- c.downField("quantity").as[Int]
+  } yield CartItem(productType, options, markup, quantity)
+}
+```
+
+Your tests should now pass!
+
 ## Decoder Integration
 
 So, now we've done the 

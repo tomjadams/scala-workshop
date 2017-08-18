@@ -6,7 +6,10 @@ object Decoders {
   val cartItemDecoder = Decoder.instance[CartItem] { c =>
     for {
       productType <- c.downField("product-type").as[String]
-    } yield CartItem(productType, Map.empty, 0, 0)
+      options <- c.downField("options").as[Map[String, String]]
+      markup <- c.downField("artist-markup").as[Int]
+      quantity <- c.downField("quantity").as[Int]
+    } yield CartItem(productType, options, markup, quantity)
   }
 
   //  val cartDecoder = Decoder.instance[Cart] { (c: HCursor) =>
