@@ -12,6 +12,5 @@ object Decoders {
     } yield CartItem(productType, options, markup, quantity)
   }
 
-  //  val cartDecoder = Decoder.instance[Cart] { (c: HCursor) =>
-  //  }
+  val cartDecoder = Decoder[List[CartItem]].map(Cart)
 }

@@ -281,13 +281,50 @@ val cartItemDecoder = Decoder.instance[CartItem] { c =>
 }
 ```
 
-Your tests should now pass!
+Your tests should now pass! We're done right?
+
+Well, no. If you were following along closely, you may have noticed that we decoded a single cart item, whereas our JSON file contains an array of them. We need to write a decoder for them. Luckily this is pretty easy to do with Circe:
+
+```scala
+val cartDecoder = Decoder.instance[Cart] { c =>
+  c.as[List[CartItem]](Decoder.decodeList(cartItemDecoder)).map(is => Cart(is))
+}
+```
+
+What we've done is decode the JSON array of cart items as a list, and then mapped the `Cart` constructor over this list. By convention, if we have a list of thing, we often abbreviate it as the first initial of the thing followed by an "s", so for example `items` becomes `is` (the singular would be `i`).
+
+We can clean this up a bit by removing the need for the variable inside the function using the `_` identifier:
+
+```scala
+val cartDecoder = Decoder.instance[Cart] { c =>
+  c.as[List[CartItem]](Decoder.decodeList(cartItemDecoder)).map(Cart(_))
+}
+```
+
+We can go further still and remove the variable altogether:
+
+```scala
+val cartDecoder = Decoder.instance[Cart] { c =>
+  c.as[List[CartItem]](Decoder.decodeList(cartItemDecoder)).map(Cart)
+}
+```
+
+All of these are equivalent. Circel lets us simplfy this even further too:
+
+```scala
+val cartDecoder = Decoder[List[CartItem]].map(Cart)
+```
+
+Now, we can test this:
+
+```scala
+
+```
+
 
 ## Decoder Integration
 
-So, now we've done the 
-
-We can plug this into our class using something like the following:
+So, now we've written all the bits, let's glue it together in our 
 
 ```scala
 
