@@ -214,10 +214,7 @@ These two functions should be fairly self-explanatory, but it helps to know that
 1. Parse: Take a string, and turn it into a `Json` instance;
 1. Decode: Take a `Json` instance, and turn it into our class (the type paramater `A` in the above).
 
-We're using `Either` to represent the notion of failure. Whenever we are parsing things that might fail (or making network requests, etc.), we want to respresent the notion of failure in the type system. Either has two "sides", a left and a right, by convention these are used for:
-
-* Left - the 
-* Right - 
+We're using `Either` to represent the notion of failure. Whenever we are parsing things that might fail (or making network requests, etc.), we want to respresent the notion of failure in the type system. Either has two "sides", a left and a right, by convention, errors are always on the left, and successes are always on the right.
 
 Either is called a "disjoint union"; meaning that it is either one, or the other, but never both. By contrast, a tuple is a "product", meaning it has both values at the same time.
 
