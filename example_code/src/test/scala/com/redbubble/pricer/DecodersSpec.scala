@@ -1,6 +1,6 @@
 package com.redbubble.pricer
 
-import com.redbubble.pricer.Decoders.cartItemDecoder
+import com.redbubble.pricer.Decoders.{cartDecoder, cartItemDecoder}
 import org.scalacheck.Gen
 import org.scalatest.prop.PropertyChecks
 import org.scalatest.{EitherValues, FlatSpec, Matchers}
@@ -15,23 +15,27 @@ final class DecodersSpec extends FlatSpec with Matchers with PropertyChecks with
     quantity <- Gen.posNum[Int]
   } yield CartItem(productType, options, markup, quantity)
 
-  "A cart item" should "can be decoded from their JSON representation" in {
+  private val cartGenerator = for {
+    item <- nonEmptyListOfN(5, cartItemGenerator)
+  } yield Cart(item)
+
+  "A cart item" should "be decoded from their JSON representation" in {
     forAll(cartItemGenerator) { (item: CartItem) =>
       val json = cartItemJson(item)
-      val decodedCart = JsonOps.decodeJson(json)(cartItemDecoder)
-      decodedCart.right.value shouldEqual item
-
+      val decodedItem = JsonOps.decodeJson(json)(cartItemDecoder)
+      decodedItem.right.value shouldEqual item
     }
   }
 
-  "A cart item" should "can be decoded from their JSON representation" in {
-    forAll(cartItemGenerator) { (item: CartItem) =>
-      val json = cartItemJson(item)
-      val decodedCart = JsonOps.decodeJson(json)(cartItemDecoder)
-      decodedCart.right.value shouldEqual item
-
+  "A cart" should "be decoded from its JSON representation" in {
+    forAll(cartGenerator) { (cart: Cart) =>
+      val json = cartJson(cart)
+      val decodedCart = JsonOps.decodeJson(json)(cartDecoder)
+      decodedCart.right.value shouldEqual cart
     }
   }
+
+  private def cartJson(cart: Cart): String = cart.items.mkString("[", ",", "]")
 
   private def cartItemJson(cartItem: CartItem): String =
     s"""

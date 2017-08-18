@@ -309,18 +309,44 @@ val cartDecoder = Decoder.instance[Cart] { c =>
 }
 ```
 
-All of these are equivalent. Circel lets us simplfy this even further too:
+All of these are equivalent. Note that we are passing the decoder to the `as` function explicitly. You may have noticed that the `as` function takes an `implicit` decoder, and wondered what this meant. Basically, if you declare a variable as `implicit`, and a function takes an `implicit` parameter, you don't need to pass that value explicitly.
+
+Circe lets us simplfy our list decoder even further too:
 
 ```scala
 val cartDecoder = Decoder[List[CartItem]].map(Cart)
 ```
 
-Now, we can test this:
+Note that we're (again) making use of the `apply` method on our decoder, what you see above is really the following, simplified:
 
 ```scala
-
+val cartDecoder = Decoder.apply[List[CartItem]].map(Cart)
 ```
 
+Now, we can test this by firstly adding a generator for the cart:
+
+```scala
+final def nonEmptyListOfN[A](n: Int, gen: Gen[A]): Gen[Seq[A]] =
+  Gen.listOfN(n, gen).suchThat(as => as.nonEmpty)
+
+private val cartGenerator = for {
+  item <- nonEmptyListOfN(5, cartItemGenerator)
+} yield Cart(item)
+```
+
+And then a test:
+
+```scala
+"A cart" should "be decoded from its JSON representation" in {
+  forAll(cartGenerator) { (cart: Cart) =>
+    val json = cartJson(cart)
+    val decodedCart = JsonOps.decodeJson(json)(cartDecoder)
+    decodedCart.right.value shouldEqual cart
+  }
+}
+
+private def cartJson(cart: Cart): String = cart.items.mkString("[", ",", "]")
+```
 
 ## Decoder Integration
 
@@ -339,4 +365,5 @@ You've been introduced to a few new concepts, now's probably a good time to read
 
 * Tuples;
 * `Either`;
+* Implicits;
 * `for` comprehensions.
