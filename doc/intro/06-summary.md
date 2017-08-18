@@ -6,4 +6,17 @@ OK, let's see where we are. By now, you should have:
 * Written some basic & more advanced tests using ScalaTest & ScalaCheck;
 * Parsed the cart & base product input files.
 
-What you should do is now go ahead & write the remainder of the pricing calculator. We're deliberately going to leave this as an exercise for you. Before moving on from this section, you should ensure that you've completed the entire pricing calulator. We'll be building on it in the next sections.
+We're going to build upon the work you've done so far, so now is a good time to complete the remainder of the pricing calculator. At the very least, you should build a class that takes a set of base prices and a cart, and calculates a total price:
+
+```scala
+package com.redbubble
+
+import cats.data.NonEmptyList
+import com.redbubble.pricer.{BaseProduct, Cart}
+
+final class Pricer(basePrices: NonEmptyList[BaseProduct]) {
+  def priceFor(cart: Cart): Int = {
+    0
+  }
+}
+```
