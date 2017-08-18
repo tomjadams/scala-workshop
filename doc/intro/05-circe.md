@@ -358,14 +358,46 @@ private def cartJson(cart: Cart): String = cart.items.map(cartItemJson).mkString
 
 ## Decoder Integration
 
-So, now we've written all the bits, let's glue it together in our 
+So, now we've written all the bits, let's glue it together in our app's main class. You'll need to read the JSON from a file, and make use of the JSON parsing & decoders you built earlier:
 
 ```scala
+package com.redbubble.pricer
 
+import java.io.File
+
+import com.redbubble.Pricer
+import com.redbubble.pricer.Decoders.cartDecoder
+import io.circe.Decoder
+
+import scala.io.Source
+
+object App {
+  def main(args: Array[String]): Unit = args match {
+    case Array(cartFile: String, basePricesFile: String) =>
+      val priceResult = computePrice(cartFile, basePricesFile)
+      priceResult match {
+        case Right(price) => println(price)
+        case Left(error) => sys.error(s"Unable to calculate cart price: ${error.getMessage}")
+      }
+    case _ => println("Usage: pricer.App <cart.json> <base-prices.json>")
+  }
+
+  private def computePrice(cartFilename: String, basePricesFilename: String) =
+    for {
+      cart <- decodeJsonFile(cartFilename, cartDecoder)
+      price <- new Pricer().priceFor(cart)
+    } yield price
+
+  private def decodeJsonFile[A](filename: String, decoder: Decoder[A]) = {
+    val contents = readJson(filename)
+    JsonOps.decodeJson(contents)(decoder)
+  }
+
+  private def readJson(filename: String) = Source.fromFile(new File(filename)).mkString
+}
 ```
 
 Now that we're done with the cart, go ahead & write a decoder for the base products. Note that the JSON isn't quite clean, feel free to change the data such that the product options are always an array.
-
 
 **Further reading:**
 
