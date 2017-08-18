@@ -86,10 +86,23 @@ val cartItemDecoder = Decoder.instance[CartItem] { c =>
 }
 ```
 
-TODO Explain this
+Let's break this down a little:
 
+1. We use the `Decoder.instance` method to create a new `Decoder`. This isn't magic, under the hood it's creating an anonymous `Decoder` and calling the passed function in the `apply` method (again, `apply` is a common pattern in Scala):
 
-We can test this using something like the following:
+    ```
+    final def instance[A](f: HCursor => Result[A]): Decoder[A] = new Decoder[A] {
+      final def apply(c: HCursor): Result[A] = f(c)
+    }
+    ```
+
+1. The function that does the actual work starts with a cursor, this points to the current position of the parser. Obviously this means that the decoder is relative, you must invoke it at the right point in the parsing, pointing at the right piece. This can mean that sometimes your decoder does odd things, and it's important to have adequate tests.
+
+1. Given a cursor position, the next thing it does is go down the field called `product-type`, and parse it's value as a `String`. This operation could fail for a couple of reasons. Firstly, the `product-type` field may not exist in the JSON, and secondly it's value may not be a string (or convertible to a string).
+
+1. We wrap all this up `for` comprehension. You will likely build your decoders using `for` comprehensions, as this allows us to handle the potential decoding failures in a syntactically clean way (the failures we mentioned above). Essentially, the for comprehensions hides the error handling from us in a clean way.
+
+So now we've got our decoder, let's build a test for it.
 
 ```scala
 {
@@ -104,3 +117,10 @@ We can plug this into our class using something like the following:
 ```
 
 Now that we're done with the cart, go ahead & write a decoder for the base products. Note that the JSON isn't quite clean, feel free to change the data such that the product options are always an array.
+
+
+**Further reading:**
+
+You've been introduced to a few new concepts, now's probably a good time to read up on them.
+
+* `for` comprehensions.
