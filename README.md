@@ -23,18 +23,22 @@ There is reading material at the end of this document.
 
     By the time you move on from this section, you should ensure that you've completed the entire pricing calulator example.
 
-2. Finch
+1. Finch
 
     Finch is the HTTP framework we use. We'll turn the pricing calculator into a HTTP API.
 
     * [Setup](./doc/finch/01-setup.md)
     * [Futures](./doc/finch/02-futures.md)
 
-3. GraphQL
+1. GraphQL
 
     We'll take the Finch API that we built, and make turn it into GraphQL API.
 
-4. How the iOS API works
+1. Fetch
+
+    We'll going to extend the code we've been building, to add a caching layer, using the [Fetch](http://47deg.github.io/fetch/) library.
+
+1. How the iOS API works
 
     We'll then cover the iOS API, what it does, how it works, how it's built. Things like:
 
