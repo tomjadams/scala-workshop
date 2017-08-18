@@ -1,11 +1,11 @@
 package com.redbubble.pricer
 
-import io.circe.{Decoder, Error, Json, ParsingFailure}
+import com.redbubble.pricer.Decoders.cartItemDecoder
 import org.scalacheck.Gen
 import org.scalatest.prop.PropertyChecks
-import org.scalatest.{FlatSpec, Matchers}
+import org.scalatest.{EitherValues, FlatSpec, Matchers}
 
-final class DecodersSpec extends FlatSpec with Matchers with PropertyChecks with Generators {
+final class DecodersSpec extends FlatSpec with Matchers with PropertyChecks with Generators with EitherValues {
   private val genCartOptions = Gen.mapOf(genStringTuple)
 
   private val cartItemGenerator = for {
@@ -18,8 +18,8 @@ final class DecodersSpec extends FlatSpec with Matchers with PropertyChecks with
   "A cart item" should "can be decoded from their JSON representation" in {
     forAll(cartItemGenerator) { (item: CartItem) =>
       val json = cartItemJson(item)
-
-      JsonOps.decodeJson(json)
+      val decodedCart = JsonOps.decodeJson(json)(cartItemDecoder)
+      decodedCart.left.value shouldEqual item
 
     }
   }
