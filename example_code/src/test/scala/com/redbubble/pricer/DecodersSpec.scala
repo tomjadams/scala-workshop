@@ -19,7 +19,7 @@ final class DecodersSpec extends FlatSpec with Matchers with PropertyChecks with
     forAll(cartItemGenerator) { (item: CartItem) =>
       val json = cartItemJson(item)
       val decodedCart = JsonOps.decodeJson(json)(cartItemDecoder)
-      decodedCart.left.value shouldEqual item
+      decodedCart.right.value shouldEqual item
 
     }
   }
