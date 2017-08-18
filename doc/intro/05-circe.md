@@ -106,7 +106,7 @@ Let's break this down a little:
 
 1. We wrap all this up `for` comprehension. You will likely build your decoders using `for` comprehensions, as this allows us to handle the potential decoding failures in a syntactically clean way (the failures we mentioned above). Essentially, the for comprehensions hides the error handling from us in a clean way.
 
-## Testing
+## Generators
 
 So now we've got our decoder, let's build a test for it. We'll use the same pattern as we've used before to write the test.
 
@@ -169,10 +169,66 @@ This process looks something like:
 CartItem -> JSON version of CartItem -> Decoder -> CartItem
 ```
 
-Let's see how our test looks:
+We're going to manually generate the JSON, we could build a Circe encoder to do this, but this means also writing the encoder, even if we're not going to make use of it in our production code! Also, I find the JSON string more readable & explicit, even if it suffers from some issues (it can get complex).
+
+Here's how we might write that JSON generator:
 
 ```scala
+private def cartItemJson(cartItem: CartItem): String =
+  s"""
+     |{
+     |  "product-type": "${cartItem.productType}",
+     |  "options": ${cartItemOptionsJson(cartItem.options)},
+     |  "artist-markup": ${cartItem.artistMarkup},
+     |  "quantity": ${cartItem.quantity}
+     |}
+   """.stripMargin
+
+private def cartItemOptionsJson(options: Map[String, String]): String = {
+  val kvsJson = options.map {
+    case (k, v) => s""" "$k": "$v" """.trim
+  }
+  kvsJson.mkString("{", ",", "}")
+}
 ```
+
+Now that we've got our strings, we're going to want to decode them into our objects. Circe will do this for us, but it requires using Jawn (the actual parser underlying Circe), and since we're going to be doing it a lot, let's create a class for it:
+
+```scala
+package com.redbubble.pricer
+
+import io.circe.{Decoder, Error, Json, ParsingFailure}
+
+trait JsonOps {
+  final def decodeJson[A](input: String)(implicit decoder: Decoder[A]): Either[Error, A] =
+    parseJson(input).flatMap(decoder.decodeJson)
+
+  private def parseJson(input: String): Either[ParsingFailure, Json] = io.circe.jawn.parse(input)
+}
+
+object JsonOps extends JsonOps
+```
+
+These two functions should be fairly self-explanatory, but it helps to know that "decoding" is actually two steps:
+
+1. Parse: Take a string, and turn it into a `Json` instance;
+1. Decode: Take a `Json` instance, and turn it into our class (the type paramater `A` in the above).
+
+We're using `Either` to represent the notion of failure. Whenever we are parsing things that might fail (or making network requests, etc.), we want to respresent the notion of failure in the type system. Either has two "sides", a left and a right, by convention these are used for:
+
+* Left - the 
+* Right - 
+
+Either is called a "disjoint union"; meaning that it is either one, or the other, but never both. By contrast, a tuple is a "product", meaning it has both values at the same time.
+
+# Testing
+
+Let's plug all this together & see how our test looks:
+
+```scala
+
+```
+
 
 
 Putting all those together in the test, we
@@ -195,4 +251,5 @@ Now that we're done with the cart, go ahead & write a decoder for the base produ
 You've been introduced to a few new concepts, now's probably a good time to read up on them.
 
 * Tuples;
+* `Either`;
 * `for` comprehensions.
