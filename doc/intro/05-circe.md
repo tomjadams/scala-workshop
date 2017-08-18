@@ -268,7 +268,7 @@ final class DecodersSpec extends FlatSpec with Matchers with PropertyChecks with
 }
 ```
 
-Hopefully, your test might fail now! This is because we've not finished the decoder, let's do that now.
+Hopefully, your test will fail now! This is because we've not finished the decoder, let's do that now.
 
 ```scala
 val cartItemDecoder = Decoder.instance[CartItem] { c =>
@@ -323,6 +323,14 @@ Note that we're (again) making use of the `apply` method on our decoder, what yo
 val cartDecoder = Decoder.apply[List[CartItem]].map(Cart)
 ```
 
+Note that you may also need to flag your `cartItemDecoder` with an `implicit` keyword:
+
+```scala
+implicit val cartItemDecoder = ...
+```
+
+This is because the `apply` method takes an implicit decoder for a `List[CartItem]`. Circe provides an implicit `Decoder[List[A]]` given a `Decoder[A]`, so what we need to provide is a decoder for the `A` (in this case a `Decoder[CartItem]`).
+
 Now, we can test this by firstly adding a generator for the cart:
 
 ```scala
@@ -345,7 +353,7 @@ And then a test:
   }
 }
 
-private def cartJson(cart: Cart): String = cart.items.mkString("[", ",", "]")
+private def cartJson(cart: Cart): String = cart.items.map(cartItemJson).mkString("[", ",", "]")
 ```
 
 ## Decoder Integration

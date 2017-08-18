@@ -35,7 +35,7 @@ final class DecodersSpec extends FlatSpec with Matchers with PropertyChecks with
     }
   }
 
-  private def cartJson(cart: Cart): String = cart.items.mkString("[", ",", "]")
+  private def cartJson(cart: Cart): String = cart.items.map(cartItemJson).mkString("[", ",", "]")
 
   private def cartItemJson(cartItem: CartItem): String =
     s"""
