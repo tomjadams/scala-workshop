@@ -20,3 +20,5 @@ final class Pricer(basePrices: NonEmptyList[BaseProduct]) {
   }
 }
 ```
+
+Note that we've introduce the type `NonEmptyList`; this is a list that is guarenteed (by the compiler) to not be empty (i.e. you cannot construct an empty list). This is an important concept in Scala, where possible you want to make use of the type system (the compiler) to ensure that you cannot construct objects in invalid states. This has a nice added benefit that you're not needing to write as many tests, and the feedback loop from the compiler is faster.
