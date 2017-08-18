@@ -94,7 +94,7 @@ Let's break this down a little:
 
 1. We use the `Decoder.instance` method to create a new `Decoder`. This isn't magic, under the hood it's creating an anonymous `Decoder` and calling the passed function in the `apply` method (again, `apply` is a common pattern in Scala):
 
-    ```
+    ```scala
     final def instance[A](f: HCursor => Result[A]): Decoder[A] = new Decoder[A] {
       final def apply(c: HCursor): Result[A] = f(c)
     }
@@ -132,11 +132,24 @@ object Generators extends Generators
 
 ```
 
-AAA
+What we've done is create a couple of generic generators (which we will reuse), these are the things that "generate" values for us to use in our tests. We've created three generic generators:
+
+* `genStringValue` - this generates alpha strings (no numbers), and then trucates them at 20 characters;
+* `genNotEmptyString` - this generates non-empty, alpha strings;
+* `genStringTuple` - this generates tuples (key/value pairs), where both elements are `String`s. We will use this to generate values for `Map`s (maps are really just lists of key/value pairs).
+
+Now that we have some basic helpers, let's build a generator for our `CartItem` class.
+
+First, let's 
+
+```scala
+private val genCartOptions = Gen.mapOf(genStringTuple)
+```
+
+
 
 ```scala
 ```
-
 
 
 We can plug this into our class using something like the following:
@@ -152,4 +165,5 @@ Now that we're done with the cart, go ahead & write a decoder for the base produ
 
 You've been introduced to a few new concepts, now's probably a good time to read up on them.
 
+* Tuples;
 * `for` comprehensions.
