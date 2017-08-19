@@ -8,4 +8,8 @@ object Dependencies {
   lazy val circeCore = "io.circe" %% "circe-core" % circeVersion
   lazy val circeGeneric = "io.circe" %% "circe-generic" % circeVersion
   lazy val circeParser = "io.circe" %% "circe-parser" % circeVersion
+
+  val finchVersion = "0.15.1"
+  lazy val finchCore = "com.github.finagle" %% "finch-core" % finchVersion
+  lazy val finchCirce = "com.github.finagle" %% "finch-circe" % finchVersion
 }

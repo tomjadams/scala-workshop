@@ -20,6 +20,8 @@ Template applied in ./take-home-test
 
 What this will do is bootstrap sbt by downloading the latest version, then create a new project using the values you've given it. You will also get some supporting code, such as the Scala runtime (to run sbt).
 
+Note that the `./take-home-test` may generate a directory with a different name, feel free to rename it.
+
 You will now have a basic project structure:
 
 ```

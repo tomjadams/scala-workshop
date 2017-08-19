@@ -12,6 +12,8 @@ lazy val root = (project in file(".")).
         circeCore,
         circeGeneric,
         circeParser,
+        finchCore,
+        finchCirce,
         scalaTest,
         scalaCheck
       )
