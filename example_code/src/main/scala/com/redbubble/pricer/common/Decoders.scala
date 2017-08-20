@@ -1,4 +1,4 @@
-package com.redbubble.pricer
+package com.redbubble.pricer.common
 
 import io.circe.Decoder
 

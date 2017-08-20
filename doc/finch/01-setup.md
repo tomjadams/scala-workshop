@@ -30,7 +30,22 @@ libraryDependencies ++= Seq(
 )
 ```
 
-I'd also strongly recommend that you install [Revolver](https://github.com/spray/sbt-revolver), this is an sbt plugin that will watch for code changes & restart your server when it does.
+I'd also strongly recommend that you install [sbt-revolver](https://github.com/spray/sbt-revolver), this is an sbt plugin that will watch for code changes & restart your server when it does.
+
+Add the following dependency to your `project/plugins.sbt`:
+
+```scala
+addSbtPlugin("io.spray" % "sbt-revolver" % "0.9.0")
+```
+
+And restart your sbt REPL.
+
+## A Simple Server
+
+Let's start by exposing our base prices over a HTTP `GET`. Then we'll expose a `POST` endpoint to post carts to, where we'll make use of the decoders that wrote earlier.
+
+The first thing we need to do is to create another main class to run our HTTP server.
+
 
 
 

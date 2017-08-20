@@ -1,4 +1,4 @@
-package com.redbubble.pricer
+package com.redbubble.pricer.common
 
 final case class BaseProduct(productType: String, options: Map[String, Seq[String]], basePrice: Int)
 

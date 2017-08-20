@@ -1,14 +1,14 @@
-package com.redbubble.pricer
+package com.redbubble.pricer.shell
 
 import java.io.File
 
-import com.redbubble.Pricer
-import com.redbubble.pricer.Decoders.cartDecoder
+import com.redbubble.pricer.common.Decoders.cartDecoder
+import com.redbubble.pricer.common.{JsonOps, Pricer}
 import io.circe.Decoder
 
 import scala.io.Source
 
-object App {
+object CommandLineApp {
   def main(args: Array[String]): Unit = args match {
     case Array(cartFile: String, basePricesFile: String) =>
       val priceResult = computePrice(cartFile, basePricesFile)

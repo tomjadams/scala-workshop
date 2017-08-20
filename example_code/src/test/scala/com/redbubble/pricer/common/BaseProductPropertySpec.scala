@@ -1,4 +1,4 @@
-package com.redbubble.pricer
+package com.redbubble.pricer.common
 
 import org.scalatest.prop.PropertyChecks
 import org.scalatest.{FlatSpec, Matchers}

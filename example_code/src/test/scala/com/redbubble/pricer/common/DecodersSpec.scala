@@ -1,6 +1,6 @@
-package com.redbubble.pricer
+package com.redbubble.pricer.common
 
-import com.redbubble.pricer.Decoders.{cartDecoder, cartItemDecoder}
+import com.redbubble.pricer.common.Decoders.{cartDecoder, cartItemDecoder}
 import org.scalacheck.Gen
 import org.scalatest.prop.PropertyChecks
 import org.scalatest.{EitherValues, FlatSpec, Matchers}
