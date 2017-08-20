@@ -1,6 +1,6 @@
 package com.redbubble.pricer.http
 
-import com.twitter.finagle.{Http, ListeningServer}
+import com.twitter.finagle.Http
 import com.twitter.util.Await
 import io.circe.generic.auto._
 import io.finch.circe._
