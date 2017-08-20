@@ -2,8 +2,9 @@ package com.redbubble.pricer.shell
 
 import java.io.File
 
+import cats.data.NonEmptyList
 import com.redbubble.pricer.common.Decoders.cartDecoder
-import com.redbubble.pricer.common.{JsonOps, Pricer}
+import com.redbubble.pricer.common.{BaseProduct, JsonOps, Pricer}
 import io.circe.Decoder
 
 import scala.io.Source
@@ -22,7 +23,7 @@ object CommandLineApp {
   private def computePrice(cartFilename: String, basePricesFilename: String) =
     for {
       cart <- decodeJsonFile(cartFilename, cartDecoder)
-      price <- new Pricer().priceFor(cart)
+      price = new Pricer(NonEmptyList.of(BaseProduct("hoodie", Map.empty, 0))).priceFor(cart)
     } yield price
 
   private def decodeJsonFile[A](filename: String, decoder: Decoder[A]) = {
