@@ -28,6 +28,7 @@ There is reading material at the end of this document.
     Finch is the HTTP framework we use. We'll turn the pricing calculator into a HTTP API.
 
     * [Setup](./doc/finch/01-setup.md)
+    * [Response Encoding](./doc/finch/02-response-encoding.md)
     * [Futures](./doc/finch/02-futures.md)
 
 1. GraphQL

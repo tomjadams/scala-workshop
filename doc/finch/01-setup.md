@@ -63,14 +63,13 @@ object HttpApp {
   }
 
   def main(args: Array[String]): Unit = {
-    val server: ListeningServer = Http.server.serve(":8081", prices.toService)
+    val server = Http.server.serve(":8081", prices.toService)
     Await.ready(server)
   }
 }
 ```
 
 Let's start the server using the same `run` sbt task we used earlier:
-
 
 ```shell
 > run
@@ -149,24 +148,3 @@ Remember that sbt-revolver plugin we added earlier? We can make use of that to d
 ```
 
 You can stop it then by pressing enter, and then `re-stop`.
-
-## JSON Encoding
-
-If you were paying attention though, you may have noticed that we didn't define how 
-
-```scala
-import io.circe.generic.auto._
-import io.finch.circe._
-```
-
-
-
-```shell
-> reload
-> run
-```
-
-
-
-
-

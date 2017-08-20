@@ -12,7 +12,7 @@ object HttpApp {
   }
 
   def main(args: Array[String]): Unit = {
-    val server: ListeningServer = Http.server.serve(":8081", prices.toService)
+    val server = Http.server.serve(":8081", prices.toService)
     Await.ready(server)
   }
 }
