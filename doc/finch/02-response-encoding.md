@@ -160,7 +160,38 @@ If we compile this, we should get an error:
 [error] Total time: 4 s, completed 21/08/2017 9:03:02 PM
 ```
 
-What this is saying is that we need to provide a way encode a list of base products into a response (this is what "A value of a type with an io.finch.Encode instance" means). Let's go ahead and define a response encoder:
+What this is saying is that we need to provide a way encode a list of base products into a response (this is what "A value of a type with an io.finch.Encode instance" means).
+
+Let's go ahead and bring back the automatic machinery & hook our new encoder in (as an implicit so that it works with the machinery):
+
+```scala
+import io.finch.circe._
+import io.circe.Encoder._
+
+implicit val bpe = Encoders.baseProductEncoder
+
+val prices: Endpoint[Seq[BaseProduct]] = get("prices") {
+  Ok(Seq(BaseProduct("hoodie", Map.empty, 0)))
+}
+```
+
+Let's hit the endpoint again:
+
+```shell
+$ curl -i "http://localhost:8081/prices"
+HTTP/1.1 200 OK
+Content-Type: application/json
+Date: Mon, 21 Aug 2017 21:24:49 GMT
+Content-Length: 55
+
+[{"product-type":"hoodie","options":{},"base-price":0}]
+```
+
+So now we have our base products being returned as JSON. But what if we want to go & change the response format? It's always a good idea to return a top-level object in JSON responses, so let's go ahead and do this.
+
+What this means however, is we now have to write our own response encoder. While this is pretty easy, there are a couple of moving parts. A response encoder is an instance of `Encode.Json[A]`, which is just a `io.finch.Encode[A]` with a JSON content type.
+
+Here is our response encoder:
 
 ```scala
 object ResponseEncoders {
@@ -174,7 +205,7 @@ object ResponseEncoders {
 }
 ```
 
-So what does our final class look like?
+Let's plug it into our app, we'll need to make use of some implicits in order to simplify the code (Circe expects type classes for things we probably don't want to explicitly pass).
 
 ```scala
 object HttpApp {
@@ -191,8 +222,6 @@ object HttpApp {
   }
 }
 ```
-
-Note that we've made use of liberal implicits to make the code more "readable".
 
 Let's hit the endpoint again:
 
