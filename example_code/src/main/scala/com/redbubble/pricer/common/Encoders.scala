@@ -1,22 +1,22 @@
 package com.redbubble.pricer.common
 
-import io.circe.syntax._
 import io.circe.{Encoder, Json}
 
 object Encoders {
-  private val productOptionsEncoder: Encoder[Map[String, Seq[String]]] =
+  val productOptionsEncoder: Encoder[Map[String, Seq[String]]] =
     Encoder.instance { o =>
-      val entries: Map[String, Json] = o.foldLeft(Seq.empty) { (acc, kvs) =>
-        // replace this map with a foldleft
-        case (k, v: Seq[String]) => k -> Json.arr(v.map(Json.fromString): _*)
+      val entries = o.foldLeft(Seq.empty[(String, Json)]) { (acc, kvs) =>
+        kvs match {
+          case (k, vs) => acc :+ k -> Json.arr(vs.map(Json.fromString): _*)
+        }
       }
-      Json.obj()
+      Json.obj(entries: _*)
     }
 
   val baseProductEncoder: Encoder[BaseProduct] = Encoder.instance { p =>
     Json.obj(
       "product-type" -> Json.fromString(p.productType),
-      "options" -> p.options.asJson,
+      "options" -> productOptionsEncoder(p.options),
       "basePrice" -> Json.fromInt(p.basePrice)
     )
   }
