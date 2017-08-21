@@ -174,6 +174,41 @@ object ResponseEncoders {
 }
 ```
 
+So what does our final class look like?
+
+```scala
+object HttpApp {
+  private val baseProductsEncoder = Encoder.encodeTraversableOnce[BaseProduct, Seq]
+  private implicit val productsResponseEncode = dataJsonEncode(baseProductsEncoder)
+
+  val prices: Endpoint[Seq[BaseProduct]] = get("prices") {
+    Ok(Seq(BaseProduct("hoodie", Map.empty, 0)))
+  }
+
+  def main(args: Array[String]): Unit = {
+    val server = Http.server.serve(":8081", prices.toService)
+    Await.ready(server)
+  }
+}
+```
+
+Note that we've made use of liberal implicits to make the code more "readable".
+
+Let's hit the endpoint again:
+
+```shell
+$ curl -i "http://localhost:8081/prices"
+HTTP/1.1 200 OK
+Content-Type: application/json
+Date: Mon, 21 Aug 2017 11:33:51 GMT
+Content-Length: 64
+
+{"data":[{"product-type":"hoodie","options":{},"base-price":0}]}
+```
+
+Success! Now we can go ahead & hook the pricer into the endpoint.
+
+TODO Hook the pricer in as the next step
 
 ## Summary
 

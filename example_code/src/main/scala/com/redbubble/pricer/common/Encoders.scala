@@ -12,7 +12,7 @@ object Encoders {
     )
   }
 
-  val baseProductsEncoder = Encoder.encodeTraversableOnce[BaseProduct, Seq]
+  val baseProductsEncoder: Encoder[Seq[BaseProduct]] = Encoder.encodeTraversableOnce[BaseProduct, Seq]
 
   // An encoder showing how to manually encode our options map into JSON.
   // Note. It's a convention that the "accumulator" passed into the fold function is called "acc".
