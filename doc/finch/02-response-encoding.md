@@ -128,10 +128,58 @@ The first parameter here takes the object that we want to encode, the second the
 
 ## Response Encoders
 
-Now we want to plug our encoder into the Finch response machinery.
+Now we want to plug our encoder into the Finch response machinery. Let's go back to our HTTP main class & modify it to return a list of base products, we'll hard code a product for now & remove our Circe & Finch automatic machinery.
+
+```scala
+//import io.circe.generic.auto._
+//import io.finch.circe._
+
+val prices: Endpoint[Seq[BaseProduct]] = get("prices") {
+  Ok(Seq(BaseProduct("hoodie", Map.empty, 0)))
+}
+```
+
+If we compile this, we should get an error:
+
+```shell
+> compile
+[info] Compiling 1 Scala source to /Users/tom/Projects/Personal/scala-workshop/example_code/target/scala-2.12/classes...
+[error] /Users/tom/Projects/Personal/scala-workshop/example_code/src/main/scala/com/redbubble/pricer/http/HttpApp.scala:16: An Endpoint you're trying to convert into a Finagle service is missing one or more encoders.
+[error] 
+[error]   Make sure Seq[com.redbubble.pricer.common.BaseProduct] is one of the following:
+[error] 
+[error]   * A com.twitter.finagle.http.Response
+[error]   * A value of a type with an io.finch.Encode instance (with the corresponding content-type)
+[error]   * A coproduct made up of some combination of the above
+[error] 
+[error]   See https://github.com/finagle/finch/blob/master/docs/cookbook.md#fixing-the-toservice-compile-error
+[error]     val server = Http.server.serve(":8081", prices.toService)
+[error]                                                    ^
+[error] one error found
+[error] (compile:compileIncremental) Compilation failed
+[error] Total time: 4 s, completed 21/08/2017 9:03:02 PM
+```
+
+What this is saying is that we need to provide a way encode a list of base products into a response (this is what "A value of a type with an io.finch.Encode instance" means). Let's go ahead and define a response encoder:
+
+```scala
+object ResponseEncoders {
+  private val printer: Printer = Printer.noSpaces.copy(dropNullKeys = true)
+
+  final def dataJsonEncode[A](implicit encoder: Encoder[A]): Encode.Json[A] =
+    Encode.json { (a, charset) =>
+      val json = Json.obj("data" -> encoder.apply(a))
+      Buf.ByteBuffer.Owned(printer.prettyByteBuffer(json, charset))
+    }
+}
+```
 
 
+## Summary
 
+Now all this might seem like a lot of work, just to define a way to encode things to JSON, and to be fair, it is. But once we've done it, we don't need to do it again.
+
+In fact, the [Finch template](https://github.com/redbubble/finch-template/blob/master/common/src/main/scala/com/redbubble/util/http/ResponseOps.scala) does just that.
 
 **Further reading:**
 
