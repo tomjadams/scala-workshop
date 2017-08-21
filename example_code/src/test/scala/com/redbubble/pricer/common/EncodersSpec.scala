@@ -1,6 +1,6 @@
 package com.redbubble.pricer.common
 
-import com.redbubble.pricer.common.Decoders.cartItemDecoder
+import com.redbubble.pricer.common.Encoders.baseProductEncoder
 import org.scalacheck.Gen
 import org.scalatest.prop.PropertyChecks
 import org.scalatest.{EitherValues, FlatSpec, Matchers}
@@ -16,9 +16,9 @@ final class EncodersSpec extends FlatSpec with Matchers with PropertyChecks with
 
   "A base product" should "be encoded to its JSON representation" in {
     forAll(baseProductGenerator) { (product: BaseProduct) =>
-      val json = cartItemJson(product)
-      val decodedItem = JsonOps.decodeJson(json)(cartItemDecoder)
-      decodedItem.right.value shouldEqual product
+      val expected = JsonOps.parseJson(baseProductJson(product))
+      val actual = JsonOps.parseJson(JsonOps.encode(product)(baseProductEncoder).noSpaces)
+      expected shouldEqual actual
     }
   }
 
@@ -31,10 +31,12 @@ final class EncodersSpec extends FlatSpec with Matchers with PropertyChecks with
        |}
      """.stripMargin
 
-  private def cartItemOptionsJson(options: Map[String, Seq[String]]): String = {
+  private def cartItemOptionsJson(options: Map[String, Seq[String]]) = {
     val kvsJson = options.map {
-      case (k, v) => s""" "$k": "${v.mkString("[", ",", "]")}" """.trim
+      case (k, v) => s""" "$k": ${v.map(valueJson).mkString("[", ",", "]")} """.trim
     }
     kvsJson.mkString("{", ",", "}")
   }
+
+  private def valueJson(v: String) = s""" "$v" """.trim
 }

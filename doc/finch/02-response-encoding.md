@@ -63,14 +63,72 @@ val baseProductEncoder: Encoder[BaseProduct] = Encoder.instance { p =>
 }
 ```
 
-Note that we're using `p.options.asJson`. This is purely for ease of use, in order to encode our map correctly, we'd need to `map` across it's entries, and turn them into JSON. While I encourage you to try to do this, we'll use the simpler version for now.
+Note that we're using `p.options.asJson`. This is purely for ease of use, in order to encode our map correctly, we'd need to `map` across it's entries, and turn them into JSON. While I encourage you to try to do this, we'll use the simpler version for now (there's a manual version in the example code).
 
 Let's write a test for that. In the same vein as our decoder test, we're going to create a generator for our sample data.
 
 ```scala
+final val genNestedStringTuple: Gen[(String, Seq[String])] = for {
+  k <- Gen.identifier
+  v <- Gen.oneOf(Gen.const(Seq.empty), Gen.listOfN(5, genStringValue))
+} yield (k, v)
 
+private val genCartOptions = Gen.mapOf(genNestedStringTuple)
+
+private val baseProductGenerator = for {
+  productType <- Gen.alphaLowerStr
+  options <- genCartOptions
+  basePrice <- Gen.posNum[Int]
+} yield BaseProduct(productType, options, basePrice)
 ```
 
+And we'll generate some sample JSON to ensure our encoder is doing the right thing:
+
+```scala
+private def baseProductJson(product: BaseProduct) =
+  s"""
+     |{
+     |  "product-type": "${product.productType}",
+     |  "options": ${cartItemOptionsJson(product.options)},
+     |  "base-price": ${product.basePrice}
+     |}
+   """.stripMargin
+
+private def cartItemOptionsJson(options: Map[String, Seq[String]]) = {
+  val kvsJson = options.map {
+    case (k, v) => s""" "$k": ${v.map(valueJson).mkString("[", ",", "]")} """.trim
+  }
+  kvsJson.mkString("{", ",", "}")
+}
+
+private def valueJson(v: String) = s""" "$v" """.trim
+```
+
+Now, let's write the test that hooks all this together:
+
+```scala
+"A base product" should "be encoded to its JSON representation" in {
+  forAll(baseProductGenerator) { (product: BaseProduct) =>
+    val expected = JsonOps.parseJson(baseProductJson(product))
+    val actual = JsonOps.parseJson(JsonOps.encode(product)(baseProductEncoder).noSpaces)
+    expected shouldEqual actual
+  }
+}
+```
+
+What we've done is created both some example hand-crafted JSON, and used our encoder to create the real JSON. We then parse both strings - so we compare the JSON representation, not the string - and compare the parsed `Json` instances.
+
+Notice that our encode method takes two parameters: `JsonOps.encode(product)(baseProductEncoder)`. If we look at the definition you can see two parameter lists:
+
+```scala
+final def encode[A](a: A)(implicit encoder: Encoder[A]): Json = encoder(a)
+```
+
+The first parameter here takes the object that we want to encode, the second the encoder that does that encoding. Notice the `implicit` keyword, we can either flag a variable (of the same type) within scope as being `implicit` also, or, pass the value explicitly. In our test, we've pased the value explicitly.
+
+## Response Encoders
+
+Now we want to plug our encoder into the Finch response machinery.
 
 
 
