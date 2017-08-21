@@ -1,15 +1,12 @@
 package com.redbubble.pricer.http
 
-import com.redbubble.pricer.common.{BaseProduct, Encoders}
-import com.redbubble.pricer.common.Encoders.{baseProductEncoder, baseProductsEncoder}
+import com.redbubble.pricer.common.BaseProduct
+import com.redbubble.pricer.common.Encoders.baseProductsEncoder
 import com.redbubble.pricer.http.ResponseEncoders.dataJsonEncode
 import com.twitter.finagle.Http
 import com.twitter.io.Buf
 import com.twitter.util.Await
 import io.circe.{Encoder, Json, Printer}
-import io.finch
-//import io.circe.generic.auto._
-//import io.finch.circe.Encoders
 import io.finch.{Endpoint, _}
 
 object ResponseEncoders {
@@ -23,11 +20,10 @@ object ResponseEncoders {
 }
 
 object HttpApp {
-  private implicit val productsResponseEncode = dataJsonEncode(baseProductsEncoder)
-
   val prices: Endpoint[Seq[BaseProduct]] = get("prices") {
     Ok(Seq(BaseProduct("hoodie", Map.empty, 0)))
   }
+  private implicit val productsResponseEncode = dataJsonEncode(baseProductsEncoder)
 
   def main(args: Array[String]): Unit = {
     val server = Http.server.serve(":8081", prices.toService)
