@@ -58,14 +58,18 @@ val baseProductEncoder: Encoder[BaseProduct] = Encoder.instance { p =>
   Json.obj(
     "product-type" -> Json.fromString(p.productType),
     "options" -> p.options.asJson,
-    "basePrice" -> Json.fromInt(p.basePrice)
+    "base-price" -> Json.fromInt(p.basePrice)
   )
 }
 ```
 
 Note that we're using `p.options.asJson`. This is purely for ease of use, in order to encode our map correctly, we'd need to `map` across it's entries, and turn them into JSON. While I encourage you to try to do this, we'll use the simpler version for now.
 
+Let's write a test for that. In the same vein as our decoder test, we're going to create a generator for our sample data.
 
+```scala
+
+```
 
 
 
