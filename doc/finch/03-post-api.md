@@ -185,6 +185,8 @@ So an empty cart costs us nothing! Bargain!
 
 For the sake of this workshop, we're going to skip writing the tests for the decoding machinery, but you should feel free to write tests for the encoders & decoders we've created for Finch.
 
+We've now completed a simple Finch service that both returns base prices, as well as calculates the cost of carts against these base prices.
+
 **Further reading:**
 
 You've been introduced to a few new concepts, now's probably a good time to read up on them.

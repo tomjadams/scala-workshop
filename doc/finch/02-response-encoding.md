@@ -243,7 +243,7 @@ Success! Now we can go ahead & hook the pricer into the endpoint.
 
 ## Hooking in the Pricer
 
-If you've gotten this far, you should now have a simple endpoint, serving base products. Let's take some time to do a small refactor of our code, to clean up our API. There's obviously a lot of ways that we can do this, so this is just one example of how it might be done.
+If you've gotten this far, you should now have a simple endpoint, serving base products. Let's take some time to do a small refactor of our code, to clean up our API. There's obviously a lot of ways that we can do this, so this is just one example of how it might be done. There's an assumption here that you've completed your pricer, and that it actually calculates prices, however in the examples we've hard coded the pricer to a price of `0`.
 
 Firstly, we need to expose the `baseProducts` in our `Pricer` class. We can do this by simply adding a `val` before the variable definition (case classes do this for us automatically):
 
@@ -299,6 +299,8 @@ Content-Length: 64
 ```
 
 Awesome. We've refactored things & haven't broken anything!
+
+Note that we have hard coded our list of base products in the example above, in reality you'd hook in your base pricing parser from the [first section of the workshop](https://github.com/tomjadams/scala-workshop/blob/master/doc/intro/05-circe.md#decoder-integration).
 
 ## Summary
 
