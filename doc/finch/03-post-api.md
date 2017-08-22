@@ -58,7 +58,7 @@ abstract class Endpoints(pricer: Pricer) extends Codecs {
 
 We've made our individual endpoints private, and only exposed them through a composed `api` endpoint, onto which we've also layered versioning. Our endpoints will now be accessible via URLs such as `/v1/prices` and `/v1/price`.
 
-If you were paying very close attention you'd have noticed we swapped our `val`s `def`s. There's no real reason to do this apart from stylistically & lexicographically, our endpoints are referentially transparent, and we've memoised them in the `api` field.
+If you were paying very close attention you'd have noticed we swapped our `val`s for `def`s. There's no real reason to do this apart from stylistically & lexicographically, our endpoints are referentially transparent, and we've memoised them in the `api` field.
 
 We can then bring this into our server class:
 
