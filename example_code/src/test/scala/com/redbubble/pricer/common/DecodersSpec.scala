@@ -22,7 +22,7 @@ final class DecodersSpec extends FlatSpec with Matchers with PropertyChecks with
   "A cart item" should "be decoded from their JSON representation" in {
     forAll(cartItemGenerator) { (item: CartItem) =>
       val json = cartItemJson(item)
-      val decodedItem = JsonOps.decodeJson(json)(cartItemDecoder)
+      val decodedItem = JsonOps.decode(json)(cartItemDecoder)
       decodedItem.right.value shouldEqual item
     }
   }
@@ -30,7 +30,7 @@ final class DecodersSpec extends FlatSpec with Matchers with PropertyChecks with
   "A cart" should "be decoded from its JSON representation" in {
     forAll(cartGenerator) { (cart: Cart) =>
       val json = cartJson(cart)
-      val decodedCart = JsonOps.decodeJson(json)(cartDecoder)
+      val decodedCart = JsonOps.decode(json)(cartDecoder)
       decodedCart.right.value shouldEqual cart
     }
   }

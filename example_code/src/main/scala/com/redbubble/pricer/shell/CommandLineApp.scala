@@ -28,7 +28,7 @@ object CommandLineApp {
 
   private def decodeJsonFile[A](filename: String, decoder: Decoder[A]) = {
     val contents = readJson(filename)
-    JsonOps.decodeJson(contents)(decoder)
+    JsonOps.decode(contents)(decoder)
   }
 
   private def readJson(filename: String) = Source.fromFile(new File(filename)).mkString
