@@ -26,7 +26,7 @@ final class PricingServer(pricer: Pricer) {
   }
   private implicit val productsResponseEncode = dataJsonEncode(baseProductsEncoder)
 
-  def start: Unit = {
+  def start(): Unit = {
     val server = Http.server.serve(":8081", prices.toService)
     Await.ready(server)
     ()
