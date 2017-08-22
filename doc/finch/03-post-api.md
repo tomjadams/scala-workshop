@@ -97,7 +97,7 @@ Let's call each piece out one by one:
 
 So how do we decode that request body? Well, we need to build a `Decode.Json` instance for our `Cart` type. In the same way that we handle encoding (`A -> Encoder[A] -> Encode.Json[A]`), we handle decoding the same way (`Decode.Json[A] -> Decoder [A] -> A`).
 
-Again, we can let the default Finch/Circe machinery handle the decoding for us (by using those two inputs we showed earlier), or, we can customise the process. Because we care about sending a `data` element as the top level, and because we're doing a workshop on how to build these things, .
+Again, we can let the default Finch/Circe machinery handle the decoding for us (by using those two inputs we showed earlier), or, we can customise the process. But, because we care about sending a `data` element as the top level, and because we're doing a workshop on how to build these things, we'll do it manually.
 
 Finch deals with binary data rather than strings, but our decoding helpers (`JsonOps`) all work on strings. We can extend these to deal with binary data also:
 
