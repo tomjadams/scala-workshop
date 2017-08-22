@@ -11,8 +11,8 @@ import io.circe.{Decoder, Encoder, Json, Printer}
 import io.finch.{Endpoint, _}
 
 trait ResponseEncoders {
-  implicit val productsResponseEncode: Encode.Json[NonEmptyList[BaseProduct]] = dataJsonEncode(baseProductsEncoder)
-  implicit val priceResponseEncode: Encode.Json[Int] = dataJsonEncode(encodeInt)
+  implicit val productsResponseEncode = dataJsonEncode(baseProductsEncoder)
+  implicit val priceResponseEncode = dataJsonEncode(encodeInt)
 
   private val printer = Printer.noSpaces.copy(dropNullKeys = true)
 
@@ -24,7 +24,7 @@ trait ResponseEncoders {
 }
 
 trait RequestDecoders {
-  implicit val cartRequestDecode: Decode.Json[Cart] = decodeDataJson(Decoders.cartDecoder)
+  implicit val cartRequestDecode = decodeDataJson(Decoders.cartDecoder)
 
   final def decodeDataJson[A](implicit decoder: Decoder[A]): Decode.Json[A] =
     Decode.json { (payload, _) =>
