@@ -167,6 +167,20 @@ private def price: Endpoint[Int] = post("price" :: jsonBody[Cart]) { (cart: Cart
 }
 ```
 
+And re-run our request:
+
+```shell
+$ curl -i -d '{"data":[{"product-type":"hoodie","options":{"print-location":"front","colour":"white","size":"small"},"artist-markup":20,"quantity":0}]}' http://localhost:8081/v1/price
+HTTP/1.1 200 OK
+Content-Type: application/json
+Date: Tue, 22 Aug 2017 06:28:20 GMT
+Content-Length: 10
+
+{"data":0}
+```
+
+So an empty cart costs us nothing! Bargain!
+
 # Wrapping Up
 
 For the sake of this workshop, we're going to skip writing the tests for the decoding machinery, but you should feel free to write tests for the encoders & decoders we've created for Finch.
