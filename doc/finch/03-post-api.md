@@ -131,7 +131,7 @@ private def decodePayload[A](payload: Buf, decoder: Decoder[A]): Try[A] =
   }
 ```
 
-Our `Decode.Json` instance takes expects a `Try`, but we have an `Either`, so we need to convert between these two types. There are `Either` -> `Try` conversions in the standard library, but we are using Finch, which uses Twitter's versions of a lot of now standard library classes. Most of Twitter's use of them predates the standard library versions, and they are now slightly incompatible so can't be wholesale replaced.
+Our `Decode.Json` instance takes expects a `Try`, but we have an `Either`, so we need to convert between these two types. There are `Either` -> `Try` conversions in the standard library, but we are using Finch, which uses Twitter's versions of a lot of (now) standard library classes. Most of Twitter's use of them predates the standard library versions though, and they are now slightly incompatible so can't be wholesale replaced.
 
 If you want to look it up, we can do this conversion because our two types are "isomporphic" to each other. If you can convert back and forwards between types without data loss, this is called a "bijection". In fact, [Twitter has a library by this name](https://github.com/twitter/bijection), for just this purpose.
 
