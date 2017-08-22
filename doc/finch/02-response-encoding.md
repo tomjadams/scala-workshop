@@ -126,7 +126,9 @@ Notice that our encode method takes two parameters: `JsonOps.encode(product)(bas
 final def encode[A](a: A)(implicit encoder: Encoder[A]): Json = encoder(a)
 ```
 
-The first parameter here takes the object that we want to encode, the second the encoder that does that encoding. Notice the `implicit` keyword, we can either flag a variable (of the same type) within scope as being `implicit` also, or, pass the value explicitly. In our test, we've pased the value explicitly.
+The first parameter here takes the object that we want to encode, the second the encoder that does that encoding. In Scala, you can have multiple paramater lists, these are used for both partial application ([currying](https://alvinalexander.com/scala/fp-book/partially-applied-functions-currying-in-scala)), as well as providing implicit values (to make code simpler, provide defaults, etc.).
+
+In the second parameter list the `implicit` keyword, we can either flag a variable (of the same type) within scope as being `implicit` also, or, pass the value explicitly. In our test, we've pased the value explicitly. Implicit arguments always go on the last parameter list, and apply to all parameters within that list, not just the one that is flagged.
 
 ## Response Encoders
 
@@ -308,4 +310,5 @@ We've also built a custom response encoder to customise the responses that we se
 
 You've been introduced to a few new concepts, now's probably a good time to read up on them.
 
+* Partial function application;
 * Type classes - Circe's encoders & decoders are called type classes, this is a common pattern in Scala code.
