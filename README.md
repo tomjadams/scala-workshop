@@ -8,6 +8,8 @@ There is reading material at the end of this document.
 
 # Agenda
 
+To get started, click on the links for each of the sections. It's better if you do them in order, but feel free to skip ahead if you want.
+
 1. Introduction to Scala
 
     You'll learn about the basics of Scala, including:
@@ -18,8 +20,6 @@ There is reading material at the end of this document.
     * [ScalaCheck](./doc/intro/04-scalacheck.md)
     * [Circe](./doc/intro/05-circe.md)
     * [Summary](./doc/intro/06-summary.md)
-
-    To get started, click on the links for each of the sections. It's better if you do them in order, but feel free to skip ahead if you want.
 
     By the time you move on from this section, you should ensure that you've completed the entire pricing calulator example.
 
