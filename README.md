@@ -52,6 +52,8 @@ To get started, click on the links for each of the sections. It's better if you 
 
     * Architecture
     * Package structure
+    * Request logging
+    * Authentication
     * Metrics
     * Monitoring
     * Deployment
