@@ -281,7 +281,7 @@ final class PricingServer(pricer: Pricer) {
 object HttpApp {
   def main(args: Array[String]): Unit = {
     val pricer = new Pricer(NonEmptyList.of(BaseProduct("hoodie", Map.empty, 0)))
-    new PricingServer(pricer).start
+    new PricingServer(pricer).start()
   }
 }
 ```
