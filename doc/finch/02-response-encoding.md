@@ -65,7 +65,7 @@ val baseProductEncoder: Encoder[BaseProduct] = Encoder.instance { p =>
 }
 ```
 
-Note that we're using `p.options.asJson`. This is purely for ease of use, in order to encode our map correctly, we'd need to `map` across it's entries, and turn them into JSON. While I encourage you to try to do this, we'll use the simpler version for now (there's a manual version in the example code).
+Note that we're using `p.options.asJson`. This is purely for ease of use, in order to encode our map correctly, we'd need to `map` across it's entries, and turn them into JSON. While I encourage you to try to do this, we'll use the simpler version for now (there's a [manual version](https://github.com/tomjadams/scala-workshop/blob/e44be3f42b65fbdbde503dd9df2d4f7677c363db/example_code/src/main/scala/com/redbubble/pricer/common/Encoders.scala#L20) in the example code).
 
 Let's write a test for that. In the same vein as our decoder test, we're going to create a generator for our sample data.
 
