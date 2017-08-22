@@ -209,7 +209,7 @@ object ResponseEncoders {
 }
 ```
 
-Let's plug it into our app, we'll need to make use of some implicits in order to simplify the code (Circe expects type classes for things we probably don't want to explicitly pass).
+Let's plug it into our app. We'll need to make use of some implicits in order to simplify the code as Circe expects type classes for things we probably don't want to explicitly pass.
 
 ```scala
 object HttpApp {
