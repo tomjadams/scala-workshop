@@ -310,5 +310,6 @@ We've also built a custom response encoder to customise the responses that we se
 
 You've been introduced to a few new concepts, now's probably a good time to read up on them.
 
+* Implicit parameters;
 * Partial function application;
 * Type classes - Circe's encoders & decoders are called type classes, this is a common pattern in Scala code.
