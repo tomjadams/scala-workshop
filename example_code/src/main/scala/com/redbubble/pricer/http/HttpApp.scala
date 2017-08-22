@@ -6,11 +6,13 @@ import com.redbubble.pricer.common._
 import com.twitter.finagle.Http
 import com.twitter.io.Buf
 import com.twitter.util.{Await, Return, Throw, Try}
+import io.circe.Encoder.encodeInt
 import io.circe.{Decoder, Encoder, Json, Printer}
 import io.finch.{Endpoint, _}
 
 trait ResponseEncoders {
   implicit val productsResponseEncode: Encode.Json[NonEmptyList[BaseProduct]] = dataJsonEncode(baseProductsEncoder)
+  implicit val priceResponseEncode: Encode.Json[Int] = dataJsonEncode(encodeInt)
 
   private val printer = Printer.noSpaces.copy(dropNullKeys = true)
 

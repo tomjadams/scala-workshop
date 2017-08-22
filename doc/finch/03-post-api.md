@@ -72,6 +72,12 @@ final class PricingServer(pricer: Pricer) extends Endpoints(pricer) {
 }
 ```
 
+And, because we've added a new endpoint with a different return type, we need to add an encoder for it to our `ResponseEncoders` class:
+
+```scala
+implicit val priceResponseEncode: Encode.Json[Int] = dataJsonEncode(Encoder.encodeInt)
+```
+
 ## Request Decoding
 
 Notice how we skipped straight over the details of what the `POST` endpoint does. Looking back at our code, we have:
@@ -127,7 +133,7 @@ private def decodePayload[A](payload: Buf, decoder: Decoder[A]): Try[A] =
 
 Our `Decode.Json` instance takes expects a `Try`, but we have an `Either`, so we need to convert between these two types. There are `Either` -> `Try` conversions in the standard library, but we are using Finch, which uses Twitter's versions of a lot of now standard library classes. Most of Twitter's use of them predates the standard library versions, and they are now slightly incompatible so can't be wholesale replaced.
 
-If you want to look it up, we can do this conversion because our two types are "isomporphic" to each other. If you can convert back and forwards between types without data loss, this is called a "bijection". In fact, Twitter has a library by this name, for just this purpose.
+If you want to look it up, we can do this conversion because our two types are "isomporphic" to each other. If you can convert back and forwards between types without data loss, this is called a "bijection". In fact, [Twitter has a library by this name](https://github.com/twitter/bijection), for just this purpose.
 
 Now, we just need our `Decode.Json` instance to plug all these together:
 
