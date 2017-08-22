@@ -29,7 +29,7 @@ There is reading material at the end of this document.
 
     * [Setup](./doc/finch/01-setup.md)
     * [Response Encoding](./doc/finch/02-response-encoding.md)
-    * [Futures](./doc/finch/02-futures.md)
+    * [Cart POST API](./doc/finch/03-post-api.md)
 
 1. GraphQL
 
