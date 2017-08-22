@@ -269,7 +269,7 @@ final class PricingServer(pricer: Pricer) {
     Ok(pricer.baseProducts)
   }
 
-  def start: Unit = {
+  def start(): Unit = {
     val server = Http.server.serve(":8081", prices.toService)
     Await.ready(server)
     ()
