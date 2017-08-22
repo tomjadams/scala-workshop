@@ -92,7 +92,7 @@ Let's call each piece out one by one:
 
 * `price: Endpoint[Int]` says we have an endpoint that returns an `Int`;
 * `post` tells Finch to expose this endpoint over HTTP `POST` only;
-* `"price" :: jsonBody[Cart]` says that the URL this endpoint responds to is `/post`, and it accepts a JSON value within the body of the `POST` request (we've not seen how we can parse this yet);
+* `"price" :: jsonBody[Cart]` says that the URL this endpoint responds to is `/post`, and it accepts a JSON value within the body of the `POST` request (we've not seen how we can parse this yet). Anything that you put inside the `post` (or `get`) functions controls how Finch matches incoming requests, these are usually used for query string parameters or `POST` payloads;
 * `(cart: Cart) =>` receives the decoded `Cart` instance in the function body (which we've decoded in `jsonBody[Cart]`), note that the types match!
 
 So how do we decode that request body? Well, we need to build a `Decode.Json` instance for our `Cart` type. In the same way that we handle encoding (`A -> Encoder[A] -> Encode.Json[A]`), we handle decoding the same way (`Decode.Json[A] -> Decoder [A] -> A`).
