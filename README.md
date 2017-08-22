@@ -2,9 +2,14 @@
 
 The basic agenda is to complete a simplified version of the pricing calculator homework task, and then expose a simplified version as REST API, then as a GraphQL API.
 
+The overall goal of this workshop is to help participants understand how both of our open sourced Scala service templates are put together:
+
+* [Finch template](https://github.com/redbubble/finch-template), and
+* [GraphQL template](https://github.com/redbubble/rb-graphql-template)
+
 I'll help get people going, answer questions, but I won't be running it as an interactive follow-along workshop, you'll have to do the work yourself. The goal is to get you to learn by doing.
 
-There is reading material at the end of this document.
+There is additonal reading material on some of the concepts presented at the end of this document.
 
 # Agenda
 
@@ -31,6 +36,8 @@ To get started, click on the links for each of the sections. It's better if you 
     * [Response Encoding](./doc/finch/02-response-encoding.md)
     * [Cart POST API](./doc/finch/03-post-api.md)
 
+    Upon completion of this section
+
 1. GraphQL
 
     We'll take the Finch API that we built, and make turn it into GraphQL API.
@@ -39,11 +46,10 @@ To get started, click on the links for each of the sections. It's better if you 
 
     We'll going to extend the code we've been building, to add a caching layer, using the [Fetch](http://47deg.github.io/fetch/) library.
 
-1. How the iOS API works
+1. How the GraphQL Template API works
 
-    We'll then cover the iOS API, what it does, how it works, how it's built. Things like:
+    We'll then cover the GraphQL Template API, what it does, how it works, how it's built. Things like:
 
-    * BFF - Rationale, what it does, etc.
     * Architecture
     * Package structure
     * Metrics
@@ -54,7 +60,7 @@ To get started, click on the links for each of the sections. It's better if you 
 
 ## Learning Scala
 
-Depending on how you like to learn, you should also do some reading on Scala. There's heaps of help.
+Depending on how you like to learn, you should also do some reading on Scala as you work through this cource. There's heaps of help.
 
 ### Books
 
