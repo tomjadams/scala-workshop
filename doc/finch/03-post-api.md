@@ -120,7 +120,7 @@ private def dataFieldObjectDecoder[A](implicit decoder: Decoder[A]): Decoder[A] 
 
 By now, this should look fairly standard, we traverse a JSON object, descending down the "data" field and decode the result using the `decoder` we've been passed.
 
-The next thing we want to do is to 
+The next thing we want to do is to do the decoding of the incoming request payload:
 
 
 ```scala
