@@ -36,6 +36,8 @@ Automatic encoders are fine for simple types, but where you want control over th
 
 We'll build one up piece by piece, firstly, we'll build a Circe encoder for our base product class, and then we'll write a Finch response encoder that adds a top level `data` element.
 
+If you want to read up more on encoders, the [Finch user guide](http://finagle.github.io/finch/user-guide.html#json) has more details.
+
 A basic encoder looks a lot like our decoder from earlier:
 
 ```scala
@@ -128,7 +130,7 @@ The first parameter here takes the object that we want to encode, the second the
 
 ## Response Encoders
 
-Now we want to plug our encoder into the Finch response machinery. Let's go back to our HTTP main class & modify it to return a list of base products, we'll hard code a product for now & remove our Circe & Finch automatic machinery.
+Now we want to plug our encoder into the Finch response machinery. Let's go back to our HTTP main class & modify it to return a list of base products, we'll hard code a product for now & remove our Circe & Finch automatic machinery. If you've already built the decoder for the base products JSON, feel free to plug this in instead.
 
 ```scala
 //import io.circe.generic.auto._
@@ -178,7 +180,7 @@ val prices: Endpoint[Seq[BaseProduct]] = get("prices") {
 Let's hit the endpoint again:
 
 ```shell
-$ curl -i "http://localhost:8081/prices"
+$ curl -i "http://localhost:8081/products"
 HTTP/1.1 200 OK
 Content-Type: application/json
 Date: Mon, 21 Aug 2017 21:24:49 GMT
@@ -226,7 +228,7 @@ object HttpApp {
 Let's hit the endpoint again:
 
 ```shell
-$ curl -i "http://localhost:8081/prices"
+$ curl -i "http://localhost:8081/products"
 HTTP/1.1 200 OK
 Content-Type: application/json
 Date: Mon, 21 Aug 2017 11:33:51 GMT
@@ -237,13 +239,70 @@ Content-Length: 64
 
 Success! Now we can go ahead & hook the pricer into the endpoint.
 
-TODO Hook the pricer in as the next step
+## Hooking in the Pricer
+
+If you've gotten this far, you should now have a simple endpoint, serving base products. Let's take some time to do a small refactor of our code, to clean up our API. There's obviously a lot of ways that we can do this, so this is just one example of how it might be done.
+
+Firstly, we need to expose the `baseProducts` in our `Pricer` class. We can do this by simply adding a `val` before the variable definition (case classes do this for us automatically):
+
+```scala
+final class Pricer(val baseProducts: NonEmptyList[BaseProduct]) {
+  def priceFor(cart: Cart): Int = {
+    0
+  }
+}
+```
+
+And because we want to expose our products as a `NonEmptyList`, we need to tweak the encoder (Circe supports `NEL` out of the box, and again, we can do this automagically via implicits if we choose):
+
+```scala
+val baseProductsEncoder: Encoder[NonEmptyList[BaseProduct]] = Encoder.encodeNonEmptyList(baseProductEncoder)
+```
+
+Now, we're ready to rework our service:
+
+```scala
+final class PricingServer(pricer: Pricer) {
+  private implicit val productsResponseEncode = dataJsonEncode(baseProductsEncoder)
+
+  val prices: Endpoint[NonEmptyList[BaseProduct]] = get("prices") {
+    Ok(pricer.baseProducts)
+  }
+
+  def start: Unit = {
+    val server = Http.server.serve(":8081", prices.toService)
+    Await.ready(server)
+    ()
+  }
+}
+
+object HttpApp {
+  def main(args: Array[String]): Unit = {
+    val pricer = new Pricer(NonEmptyList.of(BaseProduct("hoodie", Map.empty, 0)))
+    new PricingServer(pricer).start
+  }
+}
+```
+
+And to make syre that we've not changed anything, we can run the tests & hit the endpoint:
+
+```shell
+$ curl -i "http://localhost:8081/products"
+HTTP/1.1 200 OK
+Content-Type: application/json
+Date: Tue, 22 Aug 2017 01:33:16 GMT
+Content-Length: 64
+
+{"data":[{"product-type":"hoodie","options":{},"base-price":0}]}
+```
+
+Awesome. We've refactored things & haven't broken anything!
 
 ## Summary
 
-Now all this might seem like a lot of work, just to define a way to encode things to JSON, and to be fair, it is. But once we've done it, we don't need to do it again.
+OK, so by now, we've built a simple RESTful API that exposes our base products over a HTTP `GET`. In the next section we're going to see how to accept `POST`s so that we can complete our cart pricing API.
 
-In fact, the [Finch template](https://github.com/redbubble/finch-template/blob/master/common/src/main/scala/com/redbubble/util/http/ResponseOps.scala) does just that.
+We've also built a custom response encoder to customise the responses that we send to clients. Now all this might seem like a lot of work, just to define a way to encode things to JSON, and to be fair, it is. But once we've done it, we don't need to do it again. In fact, the [Finch template](https://github.com/redbubble/finch-template/blob/master/common/src/main/scala/com/redbubble/util/http/ResponseOps.scala) does just that.
 
 **Further reading:**
 

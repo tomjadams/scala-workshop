@@ -1,7 +1,8 @@
 package com.redbubble.pricer.http
 
-import com.redbubble.pricer.common.BaseProduct
+import cats.data.NonEmptyList
 import com.redbubble.pricer.common.Encoders.baseProductsEncoder
+import com.redbubble.pricer.common.{BaseProduct, Pricer}
 import com.redbubble.pricer.http.ResponseEncoders.dataJsonEncode
 import com.twitter.finagle.Http
 import com.twitter.io.Buf
@@ -19,14 +20,22 @@ object ResponseEncoders {
     }
 }
 
-object HttpApp {
-  val prices: Endpoint[Seq[BaseProduct]] = get("prices") {
-    Ok(Seq(BaseProduct("hoodie", Map.empty, 0)))
+final class PricingServer(pricer: Pricer) {
+  val prices: Endpoint[NonEmptyList[BaseProduct]] = get("prices") {
+    Ok(pricer.baseProducts)
   }
   private implicit val productsResponseEncode = dataJsonEncode(baseProductsEncoder)
 
-  def main(args: Array[String]): Unit = {
+  def start: Unit = {
     val server = Http.server.serve(":8081", prices.toService)
     Await.ready(server)
+    ()
+  }
+}
+
+object HttpApp {
+  def main(args: Array[String]): Unit = {
+    val pricer = new Pricer(NonEmptyList.of(BaseProduct("hoodie", Map.empty, 0)))
+    new PricingServer(pricer).start
   }
 }
