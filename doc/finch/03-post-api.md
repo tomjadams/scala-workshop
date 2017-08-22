@@ -51,7 +51,7 @@ abstract class Endpoints(pricer: Pricer) extends Codecs {
   }
 
   private def price: Endpoint[Int] = post("price" :: jsonBody[Cart]) { (cart: Cart) =>
-    Ok(1)
+    Ok(42)
   }
 }
 ```
@@ -84,7 +84,7 @@ Notice how we skipped straight over the details of what the `POST` endpoint does
 
 ```scala
 private def price: Endpoint[Int] = post("price" :: jsonBody[Cart]) { (cart: Cart) =>
-  Ok(1)
+  Ok(42)
 }
 ```
 
@@ -145,15 +145,31 @@ final def decodeDataJson[A](implicit decoder: Decoder[A]): Decode.Json[A] =
   }
 ```
 
+Let's try posting a sample cart to our API:
 
+```shell
+$ curl -i -d '{"data":[{"product-type":"hoodie","options":{"print-location":"front","colour":"white","size":"small"},"artist-markup":20,"quantity":0}]}' http://localhost:8081/v1/price
+HTTP/1.1 200 OK
+Content-Type: application/json
+Date: Tue, 22 Aug 2017 06:25:40 GMT
+Content-Length: 11
 
+{"data":42}
+```
 
+Success!!!
+
+And now we can actually hook up our pricer:
+
+```scala
+private def price: Endpoint[Int] = post("price" :: jsonBody[Cart]) { (cart: Cart) =>
+  Ok(pricer.priceFor(cart))
+}
+```
+
+# Wrapping Up
 
 For the sake of this workshop, we're going to skip writing the tests for the decoding machinery, but you should feel free to write tests for the encoders & decoders we've created for Finch.
-
-
-
-
 
 **Further reading:**
 

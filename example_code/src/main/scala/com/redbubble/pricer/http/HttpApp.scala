@@ -53,7 +53,7 @@ abstract class Endpoints(pricer: Pricer) extends Codecs {
   }
 
   private def price: Endpoint[Int] = post("price" :: jsonBody[Cart]) { (cart: Cart) =>
-    Ok(1)
+    Ok(pricer.priceFor(cart))
   }
 }
 
