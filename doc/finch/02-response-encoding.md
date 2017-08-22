@@ -199,7 +199,7 @@ Here is our response encoder:
 
 ```scala
 object ResponseEncoders {
-  private val printer: Printer = Printer.noSpaces.copy(dropNullKeys = true)
+  private val printer = Printer.noSpaces.copy(dropNullKeys = true)
 
   final def dataJsonEncode[A](implicit encoder: Encoder[A]): Encode.Json[A] =
     Encode.json { (a, charset) =>
@@ -258,7 +258,7 @@ final class Pricer(val baseProducts: NonEmptyList[BaseProduct]) {
 And because we want to expose our products as a `NonEmptyList`, we need to tweak the encoder (Circe supports `NEL` out of the box, and again, we can do this automagically via implicits if we choose):
 
 ```scala
-val baseProductsEncoder: Encoder[NonEmptyList[BaseProduct]] = Encoder.encodeNonEmptyList(baseProductEncoder)
+val baseProductsEncoder = Encoder.encodeNonEmptyList(baseProductEncoder)
 ```
 
 Now, we're ready to rework our service:

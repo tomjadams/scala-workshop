@@ -8,7 +8,7 @@ But firstly, let's do some minor rework to get things ready. We're going to put 
 
 ```scala
 trait ResponseEncoders {
-  implicit val productsResponseEncode: Encode.Json[NonEmptyList[BaseProduct]] = dataJsonEncode(baseProductsEncoder)
+  implicit val productsResponseEncode = dataJsonEncode(baseProductsEncoder)
 
   private val printer = Printer.noSpaces.copy(dropNullKeys = true)
 
@@ -75,7 +75,7 @@ final class PricingServer(pricer: Pricer) extends Endpoints(pricer) {
 And, because we've added a new endpoint with a different return type, we need to add an encoder for it to our `ResponseEncoders` class:
 
 ```scala
-implicit val priceResponseEncode: Encode.Json[Int] = dataJsonEncode(Encoder.encodeInt)
+implicit val priceResponseEncode = dataJsonEncode(Encoder.encodeInt)
 ```
 
 ## Request Decoding
