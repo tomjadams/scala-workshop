@@ -105,6 +105,7 @@ Finagle provides the main framework we use for creating services. We also use it
 ### Cats
 
 * [Cats documentation](http://typelevel.org/cats/)
+* [Resources for Learners](https://typelevel.org/cats/resources_for_learners.html)
 
 ### Sangria/GraphQL
 
